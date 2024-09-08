@@ -135,13 +135,10 @@ struct ContentView: View {
         }
         .toolbar {
             ToolbarItemGroup {
-                Button(action: { print("clicked") }) {
-                    Label("Files", systemImage: "doc.text")
-                }
                 Button(action: openVoiceMemoDirectory) {
                     Label("Open in Finder", systemImage: "folder")
                 }
-                Button(action: { print("clicked") }) {
+                Button(action: openSettingsWindow) {
                     Label("Settings", systemImage: "gearshape")
                 }
             }
@@ -237,6 +234,60 @@ struct AudioFile: Identifiable, Hashable {
     //static func == (lhs: AudioFile, rhs: AudioFile) -> Bool {
     //    return lhs.id == rhs.id
     //}
+}
+
+private func openSettingsWindow() {
+    if let existingWindow = NSApp.windows.first(where: { $0.title == "Settings" }) {
+        existingWindow.makeKeyAndOrderFront(nil)
+    } else {
+        let settingsWindow = NSWindow(
+            contentRect: NSRect(x: 100, y: 100, width: 480, height: 300),
+            styleMask: [.titled, .closable],
+            backing: .buffered,
+            defer: false
+        )
+        settingsWindow.title = "Settings"
+        settingsWindow.center()
+        settingsWindow.isReleasedWhenClosed = false
+
+        let tabViewController = NSTabViewController()
+        tabViewController.tabStyle = .toolbar
+
+        let generalTab = NSHostingController(rootView: GeneralSettingsView())
+        generalTab.title = "General"
+
+        tabViewController.addChild(generalTab)
+
+        // Set the icon for the General tab
+        if let generalTabViewItem = tabViewController.tabViewItems.first {
+            generalTabViewItem.image = NSImage(systemSymbolName: "gearshape", accessibilityDescription: "General Settings")
+        }
+
+        settingsWindow.contentViewController = tabViewController
+        settingsWindow.makeKeyAndOrderFront(nil)
+    }
+}
+
+struct GeneralSettingsView: View {
+    @AppStorage("openAIAPIKey") private var openAIAPIKey: String = ""
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Form {
+                Section(header: Text("Accounts")) {
+                    SecureField("OpenAI API Key", text: $openAIAPIKey)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .frame(maxWidth: 300)
+                    
+                    Text("Your API key is stored securely in the app's preferences.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+            .padding()
+            Spacer()
+        }
+    }
 }
 
 #Preview {
