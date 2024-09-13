@@ -14,6 +14,13 @@ let dateFormatter: DateFormatter = {
     return formatter
 }()
 
+func formatSeconds(_ totalSeconds: Double) -> String {
+    let totalSecondsRounded = Int(totalSeconds)
+    let minutes = totalSecondsRounded / 60
+    let seconds = totalSecondsRounded % 60
+    return String(format: "%d:%02d", minutes, seconds)
+}
+
 struct AudioFileRow: View {
     var audioFile: AudioFile
     
@@ -21,9 +28,17 @@ struct AudioFileRow: View {
         VStack(alignment: .leading) {
             Text(audioFile.name)
                 .font(.headline)
-            Text(audioFile.date, formatter: dateFormatter)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+            HStack {
+                Text(audioFile.date, formatter: dateFormatter)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+
+                Spacer()
+
+                Text(formatSeconds(audioFile.duration))
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
         }
     }
 }

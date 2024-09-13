@@ -7,18 +7,10 @@
 
 import Foundation
 
-struct AudioFile: Hashable, Codable, Identifiable { //Identifiable, Hashable {
-    //let id: URL
-    var id = UUID()
+struct AudioFile: Hashable, Codable, Identifiable {
+    var id: Int
     var url: URL
     var name: String
     var date: Date
-    
-    //func hash(into hasher: inout Hasher) {
-        //hasher.combine(id)
-    //}
-    
-    //static func == (lhs: AudioFile, rhs: AudioFile) -> Bool {
-    //    return lhs.id == rhs.id
-    //}
+    var duration: Double // seconds
 }
