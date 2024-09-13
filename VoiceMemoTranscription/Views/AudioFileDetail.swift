@@ -8,6 +8,185 @@
 import Foundation
 import SwiftUI
 import Speech
+import AVFoundation
+import Combine
+
+// MARK: - AudioPlayer
+
+class AudioPlayer: ObservableObject {
+    // Published properties to update the UI
+    @Published var isPlaying: Bool = false
+    @Published var currentTime: TimeInterval = 0
+    @Published var duration: TimeInterval = 0
+    
+    private var audioPlayer: AVAudioPlayer?
+    private var timer: AnyCancellable?
+    
+    // Load the audio file from the app bundle
+    func loadAudio(_ audioFile: AudioFile) {
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: audioFile.url)
+            audioPlayer?.prepareToPlay()
+            duration = audioPlayer?.duration ?? 0
+        } catch {
+            print("Error setting up audio player: \(error.localizedDescription)")
+        }
+    }
+    
+    // Play or pause the audio
+    func playPause() {
+        guard let player = audioPlayer else { return }
+        
+        if player.isPlaying {
+            player.pause()
+            isPlaying = false
+            stopTimer()
+        } else {
+            player.play()
+            isPlaying = true
+            startTimer()
+        }
+    }
+
+    func stopAudio() {
+        audioPlayer?.stop()
+        audioPlayer = nil
+    }
+    
+
+    // Rewind by 5 seconds
+    func rewind() {
+        guard let player = audioPlayer else { return }
+        player.currentTime = max(player.currentTime - 5, 0)
+        currentTime = player.currentTime
+    }
+    
+    // Forward by 5 seconds
+    func forward() {
+        guard let player = audioPlayer else { return }
+        player.currentTime = min(player.currentTime + 5, duration)
+        currentTime = player.currentTime
+    }
+    
+    // Seek to a specific time
+    func seek(to time: TimeInterval) {
+        guard let player = audioPlayer else { return }
+        player.currentTime = time
+        currentTime = player.currentTime
+    }
+    
+    // Start the timer to update currentTime
+    private func startTimer() {
+        timer = Timer.publish(every: 0.5, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                guard let self = self, let player = self.audioPlayer else { return }
+                self.currentTime = player.currentTime
+                if !player.isPlaying {
+                    self.isPlaying = false
+                    self.stopTimer()
+                }
+            }
+    }
+    
+    // Stop the timer
+    private func stopTimer() {
+        timer?.cancel()
+        timer = nil
+    }
+    
+    deinit {
+        stopTimer()
+    }
+}
+
+// MARK: - ContentView
+
+struct AudioPlayerView: View {
+    var audioFile: AudioFile
+    @StateObject private var audioPlayer = AudioPlayer()
+
+    private let skipButtonSize: CGFloat = 20
+    private let playButtonSize: CGFloat = 30
+
+    var body: some View {
+        VStack {
+            // Progress Bar and Time Labels
+            VStack {
+                // Progress Slider
+                Slider(value: Binding(
+                    get: {
+                        audioPlayer.currentTime
+                    },
+                    set: { newValue in
+                        audioPlayer.seek(to: newValue)
+                    }
+                ), in: 0...audioPlayer.duration)
+                
+                // Time Labels
+                HStack {
+                    Text(audioPlayer.currentTime.formattedTime)
+                    Spacer()
+                    Text(audioPlayer.duration.formattedTime)
+                }
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            }
+            
+            // Control Buttons
+            HStack(spacing: 20) {
+                // Rewind Button
+                Button(action: {
+                    audioPlayer.rewind()
+                }) {
+                    Image(systemName: "gobackward.5")
+                        .resizable()
+                        .frame(width: skipButtonSize, height: skipButtonSize)
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                // Play/Pause Button
+                Button(action: {
+                    audioPlayer.playPause()
+                }) {
+                    Image(systemName: audioPlayer.isPlaying ? "pause.circle.fill" : "play.circle.fill")
+                        .resizable()
+                        .frame(width: playButtonSize, height: playButtonSize)
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                // Forward Button
+                Button(action: {
+                    audioPlayer.forward()
+                }) {
+                    Image(systemName: "goforward.5")
+                        .resizable()
+                        .frame(width: skipButtonSize, height: skipButtonSize)
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+        }
+        .padding()
+        .onAppear {
+            audioPlayer.loadAudio(audioFile)
+        }
+        .onDisappear {
+            audioPlayer.stopAudio()
+        }
+        .frame(maxWidth: 500)
+    }
+}
+
+// MARK: - Time Formatting Extension
+
+extension TimeInterval {
+    var formattedTime: String {
+        let totalSeconds = Int(self)
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%02d:%02d", minutes, seconds)
+    }
+}
 
 struct AudioFileDetail: View {
     var audioFile: AudioFile
@@ -15,38 +194,14 @@ struct AudioFileDetail: View {
     @State private var transcription: String = ""
     @State private var isTranscribing: Bool = false
     @State private var progress: Float = 0.0
-    @State private var audioPlayer: AVAudioPlayer?
-    @State private var isPlaying: Bool = false
-    @State private var currentTime: TimeInterval = 0
-    @State private var duration: TimeInterval = 0
 
     var body: some View {
         VStack {
             Text(audioFile.name)
                 .font(.headline)
-            
-            // Waveform view
-            // WaveformView(audioURL: audioFile.url, currentTime: $currentTime, duration: duration)
-            //    .frame(height: 100)
-            //    .padding()
-            
-            // Audio player controls
-            HStack {
-                Button(action: togglePlayPause) {
-                    Image(systemName: isPlaying ? "pause.circle" : "play.circle")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                }
-                
-                Slider(value: $currentTime, in: 0...duration, onEditingChanged: sliderEditingChanged)
-                    .disabled(duration == 0)
-                
-                Text(formatTime(currentTime))
-                    + Text(" / ")
-                    + Text(formatTime(duration))
-            }
-            .padding()
-            
+
+            AudioPlayerView(audioFile: audioFile)
+
             if isTranscribing {
                 ProgressView(value: progress)
                     .progressViewStyle(LinearProgressViewStyle())
@@ -58,73 +213,15 @@ struct AudioFileDetail: View {
                 }
                 .disabled(isTranscribing)
             }
-            
+
             ScrollView {
                 Text(transcription)
                     .padding()
             }
         }
         .padding()
-        .onAppear(perform: setupAudioPlayer)
-        .onDisappear(perform: stopAudio)
     }
-    
-    private func setupAudioPlayer() {
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: audioFile.url)
-            audioPlayer?.prepareToPlay()
-            duration = audioPlayer?.duration ?? 0
-        } catch {
-            print("Error setting up audio player: \(error.localizedDescription)")
-        }
-    }
-    
-    private func togglePlayPause() {
-        if isPlaying {
-            audioPlayer?.pause()
-        } else {
-            audioPlayer?.play()
-            startPlaybackTimer()
-        }
-        isPlaying.toggle()
-    }
-    
-    private func startPlaybackTimer() {
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
-            if let player = audioPlayer {
-                currentTime = player.currentTime
-                if !player.isPlaying {
-                    timer.invalidate()
-                    isPlaying = false
-                }
-            } else {
-                timer.invalidate()
-            }
-        }
-    }
-    
-    private func sliderEditingChanged(editingStarted: Bool) {
-        if !editingStarted {
-            audioPlayer?.currentTime = currentTime
-            if !isPlaying {
-                audioPlayer?.play()
-                isPlaying = true
-                startPlaybackTimer()
-            }
-        }
-    }
-    
-    private func stopAudio() {
-        audioPlayer?.stop()
-        audioPlayer = nil
-    }
-    
-    private func formatTime(_ time: TimeInterval) -> String {
-        let minutes = Int(time) / 60
-        let seconds = Int(time) % 60
-        return String(format: "%d:%02d", minutes, seconds)
-    }
-    
+
     private func startTranscription() {
         isTranscribing = true
         progress = 0.0
