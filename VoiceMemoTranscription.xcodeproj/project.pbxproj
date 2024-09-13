@@ -12,7 +12,11 @@
 		3509B8872C5C65FC00491434 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3509B8862C5C65FC00491434 /* Assets.xcassets */; };
 		3509B88A2C5C65FC00491434 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3509B8892C5C65FC00491434 /* Preview Assets.xcassets */; };
 		35AAFCA72C723FD600AF8AFB /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 35AAFCA62C723FD600AF8AFB /* OpenAI */; };
-		35B848412C5E895100278F1C /* SpeechAudioTranscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B848402C5E895100278F1C /* SpeechAudioTranscriber.swift */; };
+		35B1F1402C90B445008E7B8A /* AudioFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F13F2C90B445008E7B8A /* AudioFile.swift */; };
+		35B1F1442C90B551008E7B8A /* AudioFileDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F1432C90B551008E7B8A /* AudioFileDetail.swift */; };
+		35B1F1462C90BB65008E7B8A /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F1452C90BB65008E7B8A /* ModelData.swift */; };
+		35B1F14A2C90BF80008E7B8A /* AudioFileRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F1492C90BF80008E7B8A /* AudioFileRow.swift */; };
+		35B1F14C2C90C2AA008E7B8A /* VoiceMemoSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F14B2C90C2AA008E7B8A /* VoiceMemoSettings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +27,11 @@
 		3509B8892C5C65FC00491434 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3509B88B2C5C65FC00491434 /* VoiceMemoTranscription.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VoiceMemoTranscription.entitlements; sourceTree = "<group>"; };
 		35AAFCA42C723F2200AF8AFB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		35B848402C5E895100278F1C /* SpeechAudioTranscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechAudioTranscriber.swift; sourceTree = "<group>"; };
+		35B1F13F2C90B445008E7B8A /* AudioFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFile.swift; sourceTree = "<group>"; };
+		35B1F1432C90B551008E7B8A /* AudioFileDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFileDetail.swift; sourceTree = "<group>"; };
+		35B1F1452C90BB65008E7B8A /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
+		35B1F1492C90BF80008E7B8A /* AudioFileRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFileRow.swift; sourceTree = "<group>"; };
+		35B1F14B2C90C2AA008E7B8A /* VoiceMemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceMemoSettings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,12 +66,13 @@
 		3509B8812C5C65FA00491434 /* VoiceMemoTranscription */ = {
 			isa = PBXGroup;
 			children = (
-				3509B8882C5C65FC00491434 /* Preview Content */,
 				3509B8822C5C65FA00491434 /* VoiceMemoTranscriptionApp.swift */,
-				3509B8842C5C65FA00491434 /* ContentView.swift */,
+				35B1F1422C90B503008E7B8A /* Model */,
+				35B1F1412C90B4FF008E7B8A /* Views */,
 				3509B8862C5C65FC00491434 /* Assets.xcassets */,
 				3509B88B2C5C65FC00491434 /* VoiceMemoTranscription.entitlements */,
-				35B848402C5E895100278F1C /* SpeechAudioTranscriber.swift */,
+				3509B8882C5C65FC00491434 /* Preview Content */,
+				35B1F14B2C90C2AA008E7B8A /* VoiceMemoSettings.swift */,
 			);
 			path = VoiceMemoTranscription;
 			sourceTree = "<group>";
@@ -74,6 +83,25 @@
 				3509B8892C5C65FC00491434 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		35B1F1412C90B4FF008E7B8A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3509B8842C5C65FA00491434 /* ContentView.swift */,
+				35B1F1432C90B551008E7B8A /* AudioFileDetail.swift */,
+				35B1F1492C90BF80008E7B8A /* AudioFileRow.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		35B1F1422C90B503008E7B8A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				35B1F13F2C90B445008E7B8A /* AudioFile.swift */,
+				35B1F1452C90BB65008E7B8A /* ModelData.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,9 +180,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35B1F1402C90B445008E7B8A /* AudioFile.swift in Sources */,
 				3509B8852C5C65FA00491434 /* ContentView.swift in Sources */,
-				35B848412C5E895100278F1C /* SpeechAudioTranscriber.swift in Sources */,
+				35B1F14A2C90BF80008E7B8A /* AudioFileRow.swift in Sources */,
+				35B1F14C2C90C2AA008E7B8A /* VoiceMemoSettings.swift in Sources */,
+				35B1F1462C90BB65008E7B8A /* ModelData.swift in Sources */,
 				3509B8832C5C65FA00491434 /* VoiceMemoTranscriptionApp.swift in Sources */,
+				35B1F1442C90B551008E7B8A /* AudioFileDetail.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
