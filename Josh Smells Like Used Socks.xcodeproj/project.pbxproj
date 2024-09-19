@@ -19,6 +19,7 @@
 		35B1F14C2C90C2AA008E7B8A /* VoiceMemoSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F14B2C90C2AA008E7B8A /* VoiceMemoSettings.swift */; };
 		35B1F14E2C94CFF0008E7B8A /* AudioPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F14D2C94CFF0008E7B8A /* AudioPlayerView.swift */; };
 		35B1F1502C94CFFA008E7B8A /* TranscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F14F2C94CFFA008E7B8A /* TranscriptionView.swift */; };
+		35E659892C9C8A70006B4D12 /* TranscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E659882C9C8A62006B4D12 /* TranscriptionManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		35B1F14B2C90C2AA008E7B8A /* VoiceMemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceMemoSettings.swift; sourceTree = "<group>"; };
 		35B1F14D2C94CFF0008E7B8A /* AudioPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerView.swift; sourceTree = "<group>"; };
 		35B1F14F2C94CFFA008E7B8A /* TranscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionView.swift; sourceTree = "<group>"; };
+		35E659882C9C8A62006B4D12 /* TranscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 		35B1F1422C90B503008E7B8A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				35E659882C9C8A62006B4D12 /* TranscriptionManager.swift */,
 				35B1F13F2C90B445008E7B8A /* AudioFile.swift */,
 				35B1F1452C90BB65008E7B8A /* ModelData.swift */,
 			);
@@ -194,6 +197,7 @@
 				35B1F1502C94CFFA008E7B8A /* TranscriptionView.swift in Sources */,
 				35B1F1462C90BB65008E7B8A /* ModelData.swift in Sources */,
 				3509B8832C5C65FA00491434 /* VoiceMemoTranscriptionApp.swift in Sources */,
+				35E659892C9C8A70006B4D12 /* TranscriptionManager.swift in Sources */,
 				35B1F1442C90B551008E7B8A /* AudioFileDetail.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
