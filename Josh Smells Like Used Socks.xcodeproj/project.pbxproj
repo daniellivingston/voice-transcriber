@@ -20,6 +20,8 @@
 		35B1F14E2C94CFF0008E7B8A /* AudioPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F14D2C94CFF0008E7B8A /* AudioPlayerView.swift */; };
 		35B1F1502C94CFFA008E7B8A /* TranscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F14F2C94CFFA008E7B8A /* TranscriptionView.swift */; };
 		35E659892C9C8A70006B4D12 /* TranscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E659882C9C8A62006B4D12 /* TranscriptionManager.swift */; };
+		35E6598C2C9C9239006B4D12 /* FatalErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E6598B2C9C9232006B4D12 /* FatalErrorAlert.swift */; };
+		35E6598E2C9C9558006B4D12 /* DirectoryAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E6598D2C9C954F006B4D12 /* DirectoryAccess.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		35B1F14D2C94CFF0008E7B8A /* AudioPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerView.swift; sourceTree = "<group>"; };
 		35B1F14F2C94CFFA008E7B8A /* TranscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionView.swift; sourceTree = "<group>"; };
 		35E659882C9C8A62006B4D12 /* TranscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionManager.swift; sourceTree = "<group>"; };
+		35E6598B2C9C9232006B4D12 /* FatalErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FatalErrorAlert.swift; sourceTree = "<group>"; };
+		35E6598D2C9C954F006B4D12 /* DirectoryAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryAccess.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +76,7 @@
 		3509B8812C5C65FA00491434 /* VoiceMemoTranscription */ = {
 			isa = PBXGroup;
 			children = (
+				35E6598A2C9C9226006B4D12 /* Utils */,
 				3509B8822C5C65FA00491434 /* VoiceMemoTranscriptionApp.swift */,
 				35B1F1422C90B503008E7B8A /* Model */,
 				35B1F1412C90B4FF008E7B8A /* Views */,
@@ -113,6 +118,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		35E6598A2C9C9226006B4D12 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				35E6598D2C9C954F006B4D12 /* DirectoryAccess.swift */,
+				35E6598B2C9C9232006B4D12 /* FatalErrorAlert.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -144,7 +158,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					3509B87E2C5C65FA00491434 = {
 						CreatedOnToolsVersion = 15.4;
@@ -189,6 +203,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35E6598C2C9C9239006B4D12 /* FatalErrorAlert.swift in Sources */,
 				35B1F1402C90B445008E7B8A /* AudioFile.swift in Sources */,
 				3509B8852C5C65FA00491434 /* ContentView.swift in Sources */,
 				35B1F14E2C94CFF0008E7B8A /* AudioPlayerView.swift in Sources */,
@@ -199,6 +214,7 @@
 				3509B8832C5C65FA00491434 /* VoiceMemoTranscriptionApp.swift in Sources */,
 				35E659892C9C8A70006B4D12 /* TranscriptionManager.swift in Sources */,
 				35B1F1442C90B551008E7B8A /* AudioFileDetail.swift in Sources */,
+				35E6598E2C9C9558006B4D12 /* DirectoryAccess.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +255,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -302,6 +319,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -332,6 +350,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"VoiceMemoTranscription/Preview Content\"";
 				DEVELOPMENT_TEAM = 3SP6AT63EB;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -344,7 +363,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.livingston.VoiceMemoTranscription;
+				PRODUCT_BUNDLE_IDENTIFIER = com.livingston.JoshSmellsLikeUsedSocks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -360,6 +379,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"VoiceMemoTranscription/Preview Content\"";
 				DEVELOPMENT_TEAM = 3SP6AT63EB;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -372,7 +392,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.livingston.VoiceMemoTranscription;
+				PRODUCT_BUNDLE_IDENTIFIER = com.livingston.JoshSmellsLikeUsedSocks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

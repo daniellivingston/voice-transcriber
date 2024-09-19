@@ -12,7 +12,11 @@ import Speech
 
 struct MultiSelectionDetailView: View {
     let selectedIDs: [AudioFile.ID]
+
+    @AppStorage("openAIAPIKey") private var openAIAPIKey: String = ""
     @Environment(ModelData.self) var modelData
+    @State private var isTranscribingAll: Bool = false
+    @State private var transcriptionErrors: [AudioFile.ID: String] = [:]
     
     var selectedAudioFiles: [AudioFile] {
         modelData.audioFiles.filter { selectedIDs.contains($0.id) }
@@ -22,19 +26,67 @@ struct MultiSelectionDetailView: View {
         VStack {
             Text("Multiple Audio Files Selected")
                 .font(.headline)
+
             List(selectedAudioFiles) { audioFile in
-                Text(audioFile.name) // Customize as needed
-            }
-            HStack {
-                Button("Transcribe All") {
-                    
+                HStack {
+                    Text(audioFile.name)
+                    Spacer()
+                    if let error = transcriptionErrors[audioFile.id] {
+                        Image(systemName: "exclamationmark.triangle")
+                            .foregroundColor(.red)
+                            .help(error)
+                    } else if audioFile.transcription != nil {
+                        Image(systemName: "checkmark.circle")
+                            .foregroundColor(.green)
+                    }
                 }
+            }
+
+            HStack {
+                HStack {
+                    if isTranscribingAll {
+                        ProgressView()
+                    }
+                    Button("Transcribe All") {
+                        Task {
+                            await transcribeAll()
+                        }
+                    }
+                    .disabled(isTranscribingAll)
+                }
+
                 Button("Save All") {
                     saveAllTranscriptions()
                 }
+                .disabled(isTranscribingAll)
             }
         }
         .padding()
+    }
+
+    @MainActor
+    private func transcribeAll() async {
+        isTranscribingAll = true
+        transcriptionErrors = [:] // Reset errors
+
+        for audioFile in selectedAudioFiles {
+            let fileURL = audioFile.url
+            do {
+                let transcription = try await transcribeAudio(fileURL: fileURL, apiKey: openAIAPIKey)
+                // Update the audioFile's transcription
+                if let index = modelData.audioFiles.firstIndex(where: { $0.id == audioFile.id }) {
+                    modelData.audioFiles[index].transcription = transcription
+                }
+                print("[DRL] Transcription complete for \(audioFile.name)")
+            } catch let error as TranscriptionError {
+                transcriptionErrors[audioFile.id] = error.localizedDescription
+                print("Error transcribing \(audioFile.name): \(error.localizedDescription)")
+            } catch {
+                transcriptionErrors[audioFile.id] = error.localizedDescription
+                print("Error transcribing \(audioFile.name): \(error.localizedDescription)")
+            }
+        }
+        isTranscribingAll = false
     }
 
     private func saveAllTranscriptions() {
@@ -138,6 +190,7 @@ struct ContentView: View {
             }
         }
         .onAppear {
+            modelData.initialize()
             requestSpeechRecognitionAuthorization()
         }
     }

@@ -9,56 +9,26 @@ import Foundation
 import SwiftUI
 import SQLite3
 
-// TODO: Handle errors. Should not crash the app. Alert the user.
-
 @Observable
 class ModelData {
-    var audioFiles: [AudioFile] = loadAudioFiles()
+    var audioFiles: [AudioFile] = []
+
+    func initialize() {
+        self.audioFiles = loadAudioFiles()
+    }
 }
 
 let VoiceMemoDirectory = NSHomeDirectory() + "/Library/Group Containers/group.com.apple.VoiceMemos.shared/Recordings/"
-let VoiceMemoDatabase  = NSHomeDirectory() + "/Library/Group Containers/group.com.apple.VoiceMemos.shared/Recordings/CloudRecordings.db"
-
 
 private func loadAudioFiles() -> [AudioFile] {
-    guard requestDirectoryAccess() else { fatalError("Access to Voice Memos directory is required") }
+    guard requestDirectoryAccess() else {
+        let msg = "Access to Voice Memos directory is required for reading and transcribing audio files.\n\nPlease enable 'Full Disk Access' for this app under System Settings > Privacy & Security > Full Disk Access"
+        showErrorAndQuit(message: msg)
+        return []
+    }
 
     print("[DRL] Loading files from \(VoiceMemoDirectory)...")
     return ParseVoiceMemosCloudRecordingsDatabase().sorted { $0.date > $1.date }
-}
-
-private func requestDirectoryAccess() -> Bool {
-    let url = URL(fileURLWithPath: VoiceMemoDirectory)
-
-    do {
-        // Attempt to access the directory
-        _ = try FileManager.default.contentsOfDirectory(atPath: VoiceMemoDirectory)
-        //isDirectoryAccessGranted = true
-        //loadFiles()
-        return true
-    } catch {
-        // If access is denied, prompt the user to grant access
-        let openPanel = NSOpenPanel()
-        openPanel.message = "Please grant access to the Voice Memos directory"
-        openPanel.prompt = "Grant Access"
-        openPanel.directoryURL = url
-        openPanel.canChooseDirectories = true
-        openPanel.canChooseFiles = false
-        openPanel.allowsMultipleSelection = false
-
-        var granted = false
-        openPanel.begin { response in
-            if response == .OK {
-                granted = true
-                //self.isDirectoryAccessGranted = true
-                //self.loadFiles()
-            } else {
-                //self.showError("Access to Voice Memos directory is required")
-                fatalError("Access to Voice Memos directory is required")
-            }
-        }
-        return granted
-    }
 }
 
 func ParseVoiceMemosCloudRecordingsDatabase() -> [AudioFile] {
@@ -69,7 +39,8 @@ func ParseVoiceMemosCloudRecordingsDatabase() -> [AudioFile] {
 
     // Open the database
     if sqlite3_open(dbPath, &db) != SQLITE_OK {
-        print("Error opening database at \(dbPath)")
+        let msg = "Error opening SQLite database at \(dbPath)"
+        showErrorAndQuit(message: msg)
         return []
     }
 
@@ -143,58 +114,10 @@ func ParseVoiceMemosCloudRecordingsDatabase() -> [AudioFile] {
         sqlite3_finalize(queryStatement)
     } else {
         let errmsg = String(cString: sqlite3_errmsg(db))
-        print("Error preparing SELECT statement: \(errmsg)")
+        let msg = "Error preparing SQLite SELECT statement: \(errmsg)"
+        showErrorAndQuit(message: msg)
     }
 
     return audioFiles
 }
 
-private func listAllTablesAndColumns() {
-    let homeDirectory = NSHomeDirectory()
-    let dbPath = homeDirectory + "/Library/Group Containers/group.com.apple.VoiceMemos.shared/Recordings/CloudRecordings.db"
-
-    var db: OpaquePointer?
-
-    if sqlite3_open(dbPath, &db) != SQLITE_OK {
-        print("Error opening database at \(dbPath)")
-        return
-    }
-
-    defer {
-        sqlite3_close(db)
-    }
-
-    let tablesQuery = "SELECT name FROM sqlite_master WHERE type='table';"
-    var tablesStatement: OpaquePointer?
-
-    if sqlite3_prepare_v2(db, tablesQuery, -1, &tablesStatement, nil) == SQLITE_OK {
-        print("Tables and their columns:")
-        while sqlite3_step(tablesStatement) == SQLITE_ROW {
-            if let tableNameCStr = sqlite3_column_text(tablesStatement, 0) {
-                let tableName = String(cString: tableNameCStr)
-                print("\nTable: \(tableName)")
-
-                // Get columns for this table
-                let columnsQuery = "PRAGMA table_info(\(tableName));"
-                var columnsStatement: OpaquePointer?
-
-                if sqlite3_prepare_v2(db, columnsQuery, -1, &columnsStatement, nil) == SQLITE_OK {
-                    while sqlite3_step(columnsStatement) == SQLITE_ROW {
-                        if let columnNameCStr = sqlite3_column_text(columnsStatement, 1) {
-                            let columnName = String(cString: columnNameCStr)
-                            print("- \(columnName)")
-                        }
-                    }
-                    sqlite3_finalize(columnsStatement)
-                } else {
-                    let errmsg = String(cString: sqlite3_errmsg(db))
-                    print("Error retrieving columns for table \(tableName): \(errmsg)")
-                }
-            }
-        }
-        sqlite3_finalize(tablesStatement)
-    } else {
-        let errmsg = String(cString: sqlite3_errmsg(db))
-        print("Error retrieving table names: \(errmsg)")
-    }
-}
