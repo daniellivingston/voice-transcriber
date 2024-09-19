@@ -22,12 +22,24 @@ func formatSeconds(_ totalSeconds: Double) -> String {
 }
 
 struct AudioFileRow: View {
-    var audioFile: AudioFile
-    
+    @Binding var audioFile: AudioFile
+
     var body: some View {
         VStack(alignment: .leading) {
-            Text(audioFile.name)
-                .font(.headline)
+            // Title row
+            HStack {
+                Text(audioFile.name)
+                    .font(.headline)
+
+                Spacer()
+
+                if let _ = audioFile.transcription {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(.green)
+                }
+            }
+
+            // Metadata row
             HStack {
                 Text(audioFile.date, formatter: dateFormatter)
                     .font(.subheadline)

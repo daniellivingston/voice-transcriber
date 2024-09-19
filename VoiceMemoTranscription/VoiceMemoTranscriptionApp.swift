@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 @main
 struct VoiceMemoTranscriptionApp: App {
     @State private var modelData = ModelData()
@@ -17,8 +18,8 @@ struct VoiceMemoTranscriptionApp: App {
                 .environment(modelData)
         }
 
-        Settings {
-            VoiceMemoSettings()
-        }
+       Settings {
+           GeneralSettingsView()
+       }
     }
 }

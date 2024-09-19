@@ -11,15 +11,8 @@ import Security
 import Speech
 
 struct ContentView: View {
-    //@State private var audioFiles: [AudioFile] = []
-    //@State private var selectedFile: AudioFile?
-    //@State private var transcriptions: [UUID: String] = [:]
-    //@State private var showErrorAlert: Bool = false
-    //@State private var errorMessage: String = ""
-    @State private var isSpeechRecognitionAuthorized = false
-    
-    // NEW
     @Environment(ModelData.self) var modelData
+    @State private var isSpeechRecognitionAuthorized = false
     @State private var selectedAudioFile: AudioFile?
 
     var audioFiles: [AudioFile] {
@@ -35,12 +28,12 @@ struct ContentView: View {
 
         NavigationSplitView {
             List(selection: $selectedAudioFile) {
-                ForEach(audioFiles) { audioFile in
+                ForEach($modelData.audioFiles) { $audioFile in
                     NavigationLink {
-                        AudioFileDetail(audioFile: audioFile)
+                        AudioFileDetail(audioFile: $audioFile)
                             .frame(minWidth: 300)
                     } label: {
-                        AudioFileRow(audioFile: audioFile)
+                        AudioFileRow(audioFile: $audioFile)
                     }
                     .tag(audioFile)
                 }
@@ -50,7 +43,6 @@ struct ContentView: View {
             Text("Select an audio file")
                 .frame(minWidth: 300)
         }
-//        .focusedValue(\.selectedAudioFile, $modelData.audioFiles[index ?? 0])
         .toolbar {
             ToolbarItemGroup {
                 Button(action: openVoiceMemoDirectory) {
@@ -62,19 +54,8 @@ struct ContentView: View {
             }
         }
         .onAppear {
-//            requestDirectoryAccess()
             requestSpeechRecognitionAuthorization()
         }
-//        .alert(isPresented: $showErrorAlert) {
-//            Alert(
-//                title: Text("Error"),
-//                message: Text(errorMessage),
-//                primaryButton: .default(Text("OK")),
-//                secondaryButton: .destructive(Text("Quit")) {
-//                    NSApplication.shared.terminate(nil)
-//                }
-//            )
-//        }
     }
 
     private func requestSpeechRecognitionAuthorization() {
@@ -85,11 +66,6 @@ struct ContentView: View {
         }
     }
 
-//    private func showError(_ message: String) {
-//        errorMessage = message
-//        showErrorAlert = true
-//    }
-    
     private func openVoiceMemoDirectory() {
         let url = URL(fileURLWithPath: VoiceMemoDirectory)
         NSWorkspace.shared.open(url)
@@ -147,81 +123,6 @@ struct GeneralSettingsView: View {
             .padding()
 
             Spacer()
-        }
-    }
-}
-
-struct WaveformView: View {
-    let audioURL: URL
-    @State private var samples: [Float] = []
-    @Binding var currentTime: TimeInterval
-    let duration: TimeInterval
-    
-    var body: some View {
-        GeometryReader { geometry in
-            Path { path in
-                let width = geometry.size.width
-                let height = geometry.size.height
-                let middleY = height / 2
-                let sampleCount = samples.count
-                
-                for (index, sample) in samples.enumerated() {
-                    let x = CGFloat(index) / CGFloat(sampleCount) * width
-                    let y = middleY + CGFloat(sample) * middleY
-                    
-                    if index == 0 {
-                        path.move(to: CGPoint(x: x, y: y))
-                    } else {
-                        path.addLine(to: CGPoint(x: x, y: y))
-                    }
-                }
-            }
-            .stroke(Color.blue, lineWidth: 1)
-            
-            Path { path in
-                let progress = CGFloat(currentTime / duration)
-                let x = progress * geometry.size.width
-                path.move(to: CGPoint(x: x, y: 0))
-                path.addLine(to: CGPoint(x: x, y: geometry.size.height))
-            }
-            .stroke(Color.red, lineWidth: 2)
-        }
-        .onAppear(perform: loadAudioSamples)
-    }
-    
-    private func loadAudioSamples() {
-        guard let audioFile = try? AVAudioFile(forReading: audioURL) else { return }
-        let format = audioFile.processingFormat
-        let length = AVAudioFrameCount(audioFile.length)
-        let sampleCount = 200 // Adjust this value to change the detail of the waveform
-        
-        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: length) else { return }
-        do {
-            try audioFile.read(into: buffer)
-            guard let channelData = buffer.floatChannelData?[0] else { return }
-            
-            let samplesPerSegment = Int(length) / sampleCount
-            var loudestSamples: [Float] = []
-            
-            for i in 0..<sampleCount {
-                let start = i * samplesPerSegment
-                let end = min(start + samplesPerSegment, Int(length))
-                var loudest: Float = 0
-                
-                for j in start..<end {
-                    let sample = abs(channelData[Int(j)])
-                    if sample > loudest {
-                        loudest = sample
-                    }
-                }
-                
-                loudestSamples.append(loudest)
-            }
-            
-            let maxSample = loudestSamples.max() ?? 1.0
-            samples = loudestSamples.map { $0 / maxSample }
-        } catch {
-            print("Error reading audio file: \(error.localizedDescription)")
         }
     }
 }

@@ -17,10 +17,12 @@
 		35B1F1462C90BB65008E7B8A /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F1452C90BB65008E7B8A /* ModelData.swift */; };
 		35B1F14A2C90BF80008E7B8A /* AudioFileRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F1492C90BF80008E7B8A /* AudioFileRow.swift */; };
 		35B1F14C2C90C2AA008E7B8A /* VoiceMemoSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F14B2C90C2AA008E7B8A /* VoiceMemoSettings.swift */; };
+		35B1F14E2C94CFF0008E7B8A /* AudioPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F14D2C94CFF0008E7B8A /* AudioPlayerView.swift */; };
+		35B1F1502C94CFFA008E7B8A /* TranscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F14F2C94CFFA008E7B8A /* TranscriptionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3509B87F2C5C65FA00491434 /* VoiceMemoTranscription.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceMemoTranscription.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3509B87F2C5C65FA00491434 /* Josh Smells Like Used Socks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Josh Smells Like Used Socks.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3509B8822C5C65FA00491434 /* VoiceMemoTranscriptionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceMemoTranscriptionApp.swift; sourceTree = "<group>"; };
 		3509B8842C5C65FA00491434 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3509B8862C5C65FC00491434 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -32,6 +34,8 @@
 		35B1F1452C90BB65008E7B8A /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		35B1F1492C90BF80008E7B8A /* AudioFileRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFileRow.swift; sourceTree = "<group>"; };
 		35B1F14B2C90C2AA008E7B8A /* VoiceMemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceMemoSettings.swift; sourceTree = "<group>"; };
+		35B1F14D2C94CFF0008E7B8A /* AudioPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerView.swift; sourceTree = "<group>"; };
+		35B1F14F2C94CFFA008E7B8A /* TranscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +62,7 @@
 		3509B8802C5C65FA00491434 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3509B87F2C5C65FA00491434 /* VoiceMemoTranscription.app */,
+				3509B87F2C5C65FA00491434 /* Josh Smells Like Used Socks.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -91,6 +95,8 @@
 				3509B8842C5C65FA00491434 /* ContentView.swift */,
 				35B1F1432C90B551008E7B8A /* AudioFileDetail.swift */,
 				35B1F1492C90BF80008E7B8A /* AudioFileRow.swift */,
+				35B1F14D2C94CFF0008E7B8A /* AudioPlayerView.swift */,
+				35B1F14F2C94CFFA008E7B8A /* TranscriptionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -107,9 +113,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3509B87E2C5C65FA00491434 /* VoiceMemoTranscription */ = {
+		3509B87E2C5C65FA00491434 /* Josh Smells Like Used Socks */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3509B88E2C5C65FC00491434 /* Build configuration list for PBXNativeTarget "VoiceMemoTranscription" */;
+			buildConfigurationList = 3509B88E2C5C65FC00491434 /* Build configuration list for PBXNativeTarget "Josh Smells Like Used Socks" */;
 			buildPhases = (
 				3509B87B2C5C65FA00491434 /* Sources */,
 				3509B87C2C5C65FA00491434 /* Frameworks */,
@@ -119,12 +125,12 @@
 			);
 			dependencies = (
 			);
-			name = VoiceMemoTranscription;
+			name = "Josh Smells Like Used Socks";
 			packageProductDependencies = (
 				35AAFCA62C723FD600AF8AFB /* OpenAI */,
 			);
 			productName = VoiceMemoTranscription;
-			productReference = 3509B87F2C5C65FA00491434 /* VoiceMemoTranscription.app */;
+			productReference = 3509B87F2C5C65FA00491434 /* Josh Smells Like Used Socks.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -142,7 +148,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 3509B87A2C5C65FA00491434 /* Build configuration list for PBXProject "VoiceMemoTranscription" */;
+			buildConfigurationList = 3509B87A2C5C65FA00491434 /* Build configuration list for PBXProject "Josh Smells Like Used Socks" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -158,7 +164,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3509B87E2C5C65FA00491434 /* VoiceMemoTranscription */,
+				3509B87E2C5C65FA00491434 /* Josh Smells Like Used Socks */,
 			);
 		};
 /* End PBXProject section */
@@ -182,8 +188,10 @@
 			files = (
 				35B1F1402C90B445008E7B8A /* AudioFile.swift in Sources */,
 				3509B8852C5C65FA00491434 /* ContentView.swift in Sources */,
+				35B1F14E2C94CFF0008E7B8A /* AudioPlayerView.swift in Sources */,
 				35B1F14A2C90BF80008E7B8A /* AudioFileRow.swift in Sources */,
 				35B1F14C2C90C2AA008E7B8A /* VoiceMemoSettings.swift in Sources */,
+				35B1F1502C94CFFA008E7B8A /* TranscriptionView.swift in Sources */,
 				35B1F1462C90BB65008E7B8A /* ModelData.swift in Sources */,
 				3509B8832C5C65FA00491434 /* VoiceMemoTranscriptionApp.swift in Sources */,
 				35B1F1442C90B551008E7B8A /* AudioFileDetail.swift in Sources */,
@@ -370,7 +378,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3509B87A2C5C65FA00491434 /* Build configuration list for PBXProject "VoiceMemoTranscription" */ = {
+		3509B87A2C5C65FA00491434 /* Build configuration list for PBXProject "Josh Smells Like Used Socks" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3509B88C2C5C65FC00491434 /* Debug */,
@@ -379,7 +387,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3509B88E2C5C65FC00491434 /* Build configuration list for PBXNativeTarget "VoiceMemoTranscription" */ = {
+		3509B88E2C5C65FC00491434 /* Build configuration list for PBXNativeTarget "Josh Smells Like Used Socks" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3509B88F2C5C65FC00491434 /* Debug */,

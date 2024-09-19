@@ -13,4 +13,5 @@ struct AudioFile: Hashable, Codable, Identifiable {
     var name: String
     var date: Date
     var duration: Double // seconds
+    var transcription: String?
 }
