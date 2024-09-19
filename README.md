@@ -1,18 +1,3 @@
-#  <#Title#>
+# Josh Smells Like Used Socks
 
-This project scans your Voice Memos 
-
-
-
-
-## Overview
-
-- Button that opens the Voice Memos app
-
-```
-
-
-```
-
-https://github.com/MacPaw/OpenAI?tab=readme-ov-file#audio-transcriptions
-
+Transcribes voice notes from the Voice Memos app using OpenAI's Whisper API.
