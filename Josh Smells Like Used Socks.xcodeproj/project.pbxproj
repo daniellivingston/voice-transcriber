@@ -11,7 +11,6 @@
 		3509B8852C5C65FA00491434 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3509B8842C5C65FA00491434 /* ContentView.swift */; };
 		3509B8872C5C65FC00491434 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3509B8862C5C65FC00491434 /* Assets.xcassets */; };
 		3509B88A2C5C65FC00491434 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3509B8892C5C65FC00491434 /* Preview Assets.xcassets */; };
-		35AAFCA72C723FD600AF8AFB /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 35AAFCA62C723FD600AF8AFB /* OpenAI */; };
 		35B1F1402C90B445008E7B8A /* AudioFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F13F2C90B445008E7B8A /* AudioFile.swift */; };
 		35B1F1442C90B551008E7B8A /* AudioFileDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F1432C90B551008E7B8A /* AudioFileDetail.swift */; };
 		35B1F1462C90BB65008E7B8A /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B1F1452C90BB65008E7B8A /* ModelData.swift */; };
@@ -49,7 +48,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35AAFCA72C723FD600AF8AFB /* OpenAI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,7 +142,6 @@
 			);
 			name = "Josh Smells Like Used Socks";
 			packageProductDependencies = (
-				35AAFCA62C723FD600AF8AFB /* OpenAI */,
 			);
 			productName = VoiceMemoTranscription;
 			productReference = 3509B87F2C5C65FA00491434 /* Josh Smells Like Used Socks.app */;
@@ -175,7 +172,6 @@
 			);
 			mainGroup = 3509B8762C5C65FA00491434;
 			packageReferences = (
-				35AAFCA52C723FD600AF8AFB /* XCRemoteSwiftPackageReference "OpenAI" */,
 			);
 			productRefGroup = 3509B8802C5C65FA00491434 /* Products */;
 			projectDirPath = "";
@@ -347,6 +343,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = VoiceMemoTranscription/VoiceMemoTranscription.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -356,13 +353,15 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Josh Smells Like Used Socks";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Audio recording speech transcription";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.livingston.JoshSmellsLikeUsedSocks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -376,6 +375,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = VoiceMemoTranscription/VoiceMemoTranscription.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -385,13 +385,15 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Josh Smells Like Used Socks";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Audio recording speech transcription";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.livingston.JoshSmellsLikeUsedSocks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -421,25 +423,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		35AAFCA52C723FD600AF8AFB /* XCRemoteSwiftPackageReference "OpenAI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.3.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		35AAFCA62C723FD600AF8AFB /* OpenAI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 35AAFCA52C723FD600AF8AFB /* XCRemoteSwiftPackageReference "OpenAI" */;
-			productName = OpenAI;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3509B8772C5C65FA00491434 /* Project object */;
 }
